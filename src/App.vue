@@ -29,4 +29,12 @@
     }
   }
 }
+
+button {
+  margin-top: 30px;
+  color: #42b983;
+  font-size: 1.2rem;
+  padding: 8px;
+  border-radius: 6px;
+}
 </style>
