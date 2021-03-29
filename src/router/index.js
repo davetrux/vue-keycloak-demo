@@ -50,7 +50,7 @@ router.beforeEach((to, from, next) => {
       console.log('not authenticated')
       debugger // eslint-disable-line no-debugger
       Vue.$keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
-    } else if (Vue.$keycloak.hasRealmRole("test-role")) {
+    } else if (Vue.$keycloak.hasResourceRole('vue-demo-user')) {
       Vue.$keycloak.updateToken(70)
         .then(() => {
           next()
