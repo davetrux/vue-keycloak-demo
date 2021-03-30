@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import Keycloak from 'keycloak-js'
 
-const initOptions = {
+const options = {
   url: 'http://localhost:8001/auth/',
   realm: 'local-dev',
-  clientId: 'vue-demo',
-  onLoad: 'check-sso'
+  clientId: 'vue-demo'
 }
 
-const _keycloak = Keycloak(initOptions)
+const _keycloak = Keycloak(options)
 
 const Plugin = {
   install(Vue) {

@@ -19,10 +19,7 @@ const routes = [
     meta: {
       isAuthenticated: true
     },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Secured.vue')
+    component: () => import('../views/Secured.vue')
   },
   {
     path: '/unauthorized',
@@ -30,10 +27,7 @@ const routes = [
     meta: {
       isAuthenticated: false
     },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Unauthorized.vue')
+    component: () => import('../views/Unauthorized.vue')
   }
 ]
 
@@ -45,12 +39,13 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.isAuthenticated) {
+    // Get the actual url of the app, it's needed for Keycloak
     const basePath = window.location.toString()
     if (!Vue.$keycloak.authenticated) {
-      console.log('not authenticated')
-      debugger // eslint-disable-line no-debugger
+      // The page is protected and the user is not authenticated. Force a login.
       Vue.$keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
     } else if (Vue.$keycloak.hasResourceRole('vue-demo-user')) {
+      // The user was authenticated, and has the app role (is authorized). Update the token.
       Vue.$keycloak.updateToken(70)
         .then(() => {
           next()
@@ -59,9 +54,12 @@ router.beforeEach((to, from, next) => {
           console.error(err)
         })
     } else {
+      // The user was authenticated, but did not have the correct role (is not authorized)
+      // Redirect the user to an error page
       next({ name: 'Unauthorized' })
     }
   } else {
+    // This page did not require authentication
     next()
   }
 })

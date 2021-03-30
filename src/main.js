@@ -7,10 +7,7 @@ Vue.config.productionTip = false
 Vue.use(authentication)
 
 Vue.$keycloak
-  .init({
-    onLoad: 'check-sso',
-    checkLoginIframe: false
-  })
+  .init({ checkLoginIframe: false })
   .then(() => {
     new Vue({
       router,
