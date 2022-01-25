@@ -2,9 +2,10 @@ import Vue from 'vue'
 import Keycloak from 'keycloak-js'
 
 const options = {
-  url: 'http://localhost:8001/auth/',
+  url: 'https://keycloak-hsag.azurewebsites.net/auth',
   realm: 'local-dev',
   clientId: 'vue-demo'
+  // onload : 'login-required'
 }
 
 const _keycloak = Keycloak(options)
